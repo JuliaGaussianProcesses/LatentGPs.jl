@@ -4,7 +4,7 @@ using Distributions
 using AbstractGPs
 using Random
 using Functors
-using StatsFuns: logistic, softmax
+using StatsFuns: logistic
 
 import Distributions
 
@@ -13,7 +13,10 @@ export BernoulliLikelihood,
     GaussianLikelihood, 
     HeteroscedasticGaussianLikelihood, 
     PoissonLikelihood
+export Link, LogisticLink
 
+# Links
+include("links.jl")
 # Likelihoods
 include("likelihoods/bernoulli.jl")
 include("likelihoods/categorical.jl")

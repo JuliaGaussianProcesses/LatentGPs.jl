@@ -4,6 +4,7 @@ using Test
 using Random
 using Functors
 using Distributions
+using StatsFuns
 
 @testset "GPLikelihoods.jl" begin
 

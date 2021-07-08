@@ -1,11 +1,17 @@
 """
-    PoissonLikelihood()
+    PoissonLikelihood(invlink=ExpLink())
 
 Poisson likelihood with rate as exponential of samples from GP `f`. This is to be used if
 we assume that the uncertainity associated with the data follows a Poisson distribution.
 """
-struct PoissonLikelihood end
+struct PoissonLikelihood{L<:AbstractLink}
+    invlink::L
+end
 
-(l::PoissonLikelihood)(f::Real) = Poisson(exp(f))
+PoissonLikelihood(invlink::T=ExpLink()) where {T<:AbstractLink} = PoissonLikelihood{T}(invlink)
 
-(l::PoissonLikelihood)(fs::AbstractVector{<:Real}) = Product(Poisson.(exp.(fs)))
+@functor PoissonLikelihood
+
+(l::PoissonLikelihood)(f::Real) = Poisson(l.invlink(f))
+
+(l::PoissonLikelihood)(fs::AbstractVector{<:Real}) = Product(Poisson.(l.invlink.(fs)))
